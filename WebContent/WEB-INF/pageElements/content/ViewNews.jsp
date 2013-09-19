@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ taglib uri="/struts-bean.tld" prefix="bean"%>
-<%@ taglib uri="/struts-html.tld" prefix="html"%>
+
 
 <link rel="stylesheet" href="css/contentStylesheets/addEditNews.css"
 	type="text/css" media="screen" />

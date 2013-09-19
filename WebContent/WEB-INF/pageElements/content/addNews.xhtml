@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-<%@ taglib uri="/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/struts-bean.tld" prefix="bean"%>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
 
 <link rel="stylesheet" href="css/contentStylesheets/addEditNews.css"
 	type="text/css" media="screen" />
@@ -29,7 +29,7 @@
 <html:form action="news.do?method=saveNews">
 	<table>
 		<tr>
-			<td class="label"><bean:message key="add.news.title" /></td>
+			<td class="label"><htmlOutput key="appResource['add.news.title']" /></td>
 			<td><html:text property="title" size="61" /></td>
 		</tr>
 		<tr>

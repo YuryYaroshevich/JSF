@@ -2,21 +2,14 @@ package com.epam.ta.bean;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
 
-import org.apache.struts.Globals;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.actions.DispatchAction;
 
 import com.epam.ta.database.dao.INewsDAO;
 import com.epam.ta.exception.TATechnicalException;
 import com.epam.ta.model.News;
-import com.epam.ta.presentation.action.requestwrapper.RequestWrapper;
 
 public final class NewsActionBean extends DispatchAction {
 	private INewsDAO newsDAO;
@@ -27,15 +20,15 @@ public final class NewsActionBean extends DispatchAction {
 	private static final String FORWARD_ADD_NEWS = "addNews";
 	private static final String FORWARD_EDIT_NEWS = "editNews";
 
-	private static final String ATTR_PATH_WRAPPER = "pathWrapper";
+	/*private static final String ATTR_PATH_WRAPPER = "pathWrapper";
 	private static final String ATTR_LANGUAGE = "language";
-	private static final String ATTR_PREVIOUS_PATH = "previousPath";
+	private static final String ATTR_PREVIOUS_PATH = "previousPath";*/
 
 	// I use one JSP for adding and editing news, so these constants for making
 	// appropriate title in adding and editing pages
-	private static final String ADD_TITLE_PART = "add";
+	/*private static final String ADD_TITLE_PART = "add";
 	private static final String EDIT_TITLE_PART = "edit";
-	private static final String TITLE_PART = "titlePart";
+	private static final String TITLE_PART = "titlePart";*/
 
 	public void setNewsDAO(INewsDAO newsDAO) {
 		this.newsDAO = newsDAO;
@@ -68,7 +61,7 @@ public final class NewsActionBean extends DispatchAction {
 	 */
 
 	// gets form for creating news
-	public String addNewsPage() {
+	public String addNews() {
 		newsView.resetNewsMessage();
 		/*
 		 * HttpSession session = request.getSession(true); RequestWrapper
@@ -83,128 +76,119 @@ public final class NewsActionBean extends DispatchAction {
 	}
 
 	// saves created news in database
-	public String saveNews()
-			throws TATechnicalException {
-		/*ActionMessages errors = newsForm.validate(mapping, request);
-		if (!errors.isEmpty()) {
-			saveErrors(request, errors);
-			return mapping.findForward(FORWARD_ADD_NEWS);
-		}
-		resetToken(request);*/
+	public String saveNews() throws TATechnicalException {
+		/*
+		 * ActionMessages errors = newsForm.validate(mapping, request); if
+		 * (!errors.isEmpty()) { saveErrors(request, errors); return
+		 * mapping.findForward(FORWARD_ADD_NEWS); } resetToken(request);
+		 */
 		News newsMessage = newsView.getNewsMessage();
 		long newsId = newsDAO.addNews(newsMessage);
 		newsMessage.setNewsId(newsId);
 		newsView.setNewsList(newsDAO.getNewsList());
-		//return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
+		// return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
 		return FORWARD_VIEW_NEWS;
-		//return mapping.findForward(FORWARD_VIEW_NEWS);
+		// return mapping.findForward(FORWARD_VIEW_NEWS);
 	}
 
-	public ActionForward viewNews(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws TATechnicalException {
-		News newsMessage = newsDAO.fetchNewsById(newsForm.getNewsId());
-		newsForm.setNewsMessage(newsMessage);
-		saveToken(request);// creates token in user's session before submitting
-							// form
-		HttpSession session = request.getSession(true);
-		RequestWrapper requestWrapper = prepareRequestWrapper(session);
-		ActionForward whereWeGo = mapping.findForward(FORWARD_VIEW_NEWS);
-		requestWrapper.appendPathAndNewsId(whereWeGo.getPath(),
-				newsMessage.getNewsId());
-		session.setAttribute(ATTR_PATH_WRAPPER, requestWrapper);
-		session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
-		return whereWeGo;
+	public String viewNews() throws TATechnicalException {
+		News newsMessage = newsDAO.fetchNewsById(newsView.getNewsId());
+		newsView.setNewsMessage(newsMessage);
+		/*
+		 * saveToken(request);// creates token in user's session before
+		 * submitting // form HttpSession session = request.getSession(true);
+		 * RequestWrapper requestWrapper = prepareRequestWrapper(session);
+		 * ActionForward whereWeGo = mapping.findForward(FORWARD_VIEW_NEWS);
+		 * requestWrapper.appendPathAndNewsId(whereWeGo.getPath(),
+		 * newsMessage.getNewsId()); session.setAttribute(ATTR_PATH_WRAPPER,
+		 * requestWrapper); session.setAttribute(ATTR_PREVIOUS_PATH,
+		 * whereWeGo.getPath());
+		 */
+		return FORWARD_VIEW_NEWS;
 	}
 
 	// gets form for editing with fields contains current news data
-	public ActionForward editNewsPage(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws TATechnicalException {
-		NewsViewBean newsForm = (NewsViewBean) form;
-		News newsMessage = newsDAO.fetchNewsById(newsForm.getNewsId());
-		newsForm.setNewsMessage(newsMessage);
-		saveToken(request);// creates token in user's session before submitting
-							// form
-		HttpSession session = request.getSession(true);
-		ActionForward whereWeGo = mapping.findForward(FORWARD_EDIT_NEWS);
-		session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
-		session.setAttribute(TITLE_PART, EDIT_TITLE_PART);
-		return whereWeGo;
+	public String editNews() throws TATechnicalException {
+		News newsMessage = newsDAO.fetchNewsById(newsView.getNewsId());
+		newsView.setNewsMessage(newsMessage);
+		/*
+		 * saveToken(request);// creates token in user's session before
+		 * submitting // form HttpSession session = request.getSession(true);
+		 * ActionForward whereWeGo = mapping.findForward(FORWARD_EDIT_NEWS);
+		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
+		 * session.setAttribute(TITLE_PART, EDIT_TITLE_PART);
+		 */
+		return FORWARD_EDIT_NEWS;
 	}
 
 	// saves edited news in database
-	public ActionForward updateNews(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws TATechnicalException {
-		if (isTokenValid(request)) {
-			NewsViewBean newsForm = (NewsViewBean) form;
-			ActionMessages errors = newsForm.validate(mapping, request);
-			if (!errors.isEmpty()) {
-				saveErrors(request, errors);
-				return mapping.findForward(FORWARD_EDIT_NEWS);
-			}
-			resetToken(request);
-			newsDAO.updateNews(newsForm.getNewsMessage());
-			return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
-		}
-		return mapping.findForward(FORWARD_VIEW_NEWS);
+	public String updateNews() throws TATechnicalException {
+		/*
+		 * ActionMessages errors = newsForm.validate(mapping, request); if
+		 * (!errors.isEmpty()) { saveErrors(request, errors); return
+		 * mapping.findForward(FORWARD_EDIT_NEWS); } resetToken(request);
+		 */
+		newsDAO.updateNews(newsView.getNewsMessage());
+		// return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
+
+		return FORWARD_VIEW_NEWS;
 	}
 
 	// on view news page
-	public ActionForward deleteNews(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws TATechnicalException {
-		ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
-		if (isTokenValid(request, true)) {
-			NewsViewBean newsForm = (NewsViewBean) form;
-			newsDAO.deleteNews(newsForm.getNewsId());
-			newsForm.setNewsList(newsDAO.getNewsList());
-			HttpSession session = request.getSession(true);
-			session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
-		}
-		return whereWeGo;
+	public String deleteNews() throws TATechnicalException {
+		// ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
+		// if (isTokenValid(request, true)) {
+
+		newsDAO.deleteNews(newsView.getNewsId());
+		newsView.setNewsList(newsDAO.getNewsList());
+		/*
+		 * HttpSession session = request.getSession(true);
+		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
+		 */
+
+		return FORWARD_NEWS_LIST;
 	}
 
 	// on list news page
-	public ActionForward deleteNewsGroup(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws TATechnicalException {
-		ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
-		if (isTokenValid(request)) {
-			NewsViewBean newsForm = (NewsViewBean) form;
-			String[] selectedNews = newsForm.getSelectedNews();
-			if (selectedNews != null) {
-				newsDAO.deleteNewsGroup(selectedNews);
-				newsForm.setNewsList(newsDAO.getNewsList());
-			}
-			// resetToken(request);
-			saveToken(request);
-			HttpSession session = request.getSession(true);
-			session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
+	public String deleteNewsGroup() throws TATechnicalException {
+		//ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
+		// if (isTokenValid(request)) {
+		String[] selectedNews = newsView.getSelectedNews();
+		if (selectedNews != null) {
+			newsDAO.deleteNewsGroup(selectedNews);
+			newsView.setNewsList(newsDAO.getNewsList());
 		}
-		return whereWeGo;
+		// resetToken(request);
+		/*
+		 * saveToken(request); HttpSession session = request.getSession(true);
+		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
+		 */
+		// }
+		return FORWARD_NEWS_LIST;
 	}
 
-	public ActionForward changeLocale(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession(true);
-		String language = (String) request.getParameter(ATTR_LANGUAGE);
-		session.setAttribute(Globals.LOCALE_KEY, new Locale(language));
-		String previousPath = (String) session.getAttribute(ATTR_PREVIOUS_PATH);
-		return new ActionForward(previousPath);
+	public void changeLocale() {
+		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+		viewRoot.setLocale(new Locale("en"));
+		/*
+		 * HttpSession session = request.getSession(true); String language =
+		 * (String) request.getParameter(ATTR_LANGUAGE);
+		 * session.setAttribute(Globals.LOCALE_KEY, new Locale(language));
+		 * String previousPath = (String)
+		 * session.getAttribute(ATTR_PREVIOUS_PATH);
+		 */
+		// return new ActionForward(previousPath);
 	}
 
-	public ActionForward cancel(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession(true);
+	public String cancel() {
+		/*HttpSession session = request.getSession(true);
 		RequestWrapper requestWrapper = (RequestWrapper) session
 				.getAttribute(ATTR_PATH_WRAPPER);
-		String previousPath = requestWrapper.getRequest();
-		return new ActionForward(previousPath);
+		String previousPath = requestWrapper.getRequest();*/
+		return "previousPath";
 	}
 
-	private static RequestWrapper prepareRequestWrapper(HttpSession session) {
+	/*private static RequestWrapper prepareRequestWrapper(HttpSession session) {
 		RequestWrapper requestWrapper = (RequestWrapper) session
 				.getAttribute(ATTR_PATH_WRAPPER);
 		if (requestWrapper == null) {
@@ -213,5 +197,5 @@ public final class NewsActionBean extends DispatchAction {
 			requestWrapper.resetWrapper();
 			return requestWrapper;
 		}
-	}
+	}*/
 }

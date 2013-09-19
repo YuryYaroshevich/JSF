@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ taglib uri="/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/struts-bean.tld" prefix="bean"%>
-
-
 
 
 <h4>

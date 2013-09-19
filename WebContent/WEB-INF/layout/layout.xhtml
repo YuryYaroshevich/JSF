@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<h:outputStylesheet name="css/divBorder.css" />
+	<h:outputStylesheet name="css/layout/layout.css" />
+	<h:outputStylesheet name="css/layout/header.css" />
+	<h:outputStylesheet name="css/layout/menu.css" />
+	<h:outputStylesheet name="css/layout/footer.css" />
+	<h:outputStylesheet name="css/layout/content.css" />
+	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="js/contentMinHeight.js"></script>
+	<title>Title</title>
+</h:head>
+<body>
+	<div id="header">
+		<ui:insert name="header">
+			<ui:include src="/pageElements/header.xhtml" />
+		</ui:insert>
+	</div>
+
+	<div id="menu">
+		<ui:insert name="menu">
+			<ui:include src="/pageElements/menu.xhtml" />
+		</ui:insert>
+	</div>
+
+	<div id="content">
+		<ui:insert name="content" />
+	</div>
+
+	<div id="footer">
+		<ui:insert name="footer">
+			<ui:include src="/pageElements/footer.xhtml" />
+		</ui:insert>
+	</div>
+</body>
+</html>
