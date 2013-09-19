@@ -1,24 +1,19 @@
-package com.epam.ta.presentation.form;
+package com.epam.ta.bean;
 
-import static com.epam.ta.util.appconstant.TAConstant.DEFAULT_DATE_FORMAT;
-import static com.epam.ta.util.appconstant.TAConstant.getConstant;
+import static com.epam.ta.appconstant.TAConstant.DEFAULT_DATE_FORMAT;
+import static com.epam.ta.resource.PropertyGetter.getProperty;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.validator.ValidatorForm;
-
 import com.epam.ta.model.News;
 import com.epam.ta.model.comparison.NewsByDateComparator;
 
-public final class NewsForm extends ValidatorForm {
+public final class NewsViewBean implements Serializable {
 	private static final long serialVersionUID = 4795803945923209098L;
 
 	private List<News> newsList;
@@ -29,35 +24,26 @@ public final class NewsForm extends ValidatorForm {
 
 	private static final Comparator<News> newsByDateComparator;
 
-	//  TODO: take it away in wrapper
 	static {
 		SimpleDateFormat defaultDateFormat = new SimpleDateFormat(
-				getConstant(DEFAULT_DATE_FORMAT));
+				getProperty(DEFAULT_DATE_FORMAT));
 		newsByDateComparator = new NewsByDateComparator(defaultDateFormat);
 	}
 
-	public NewsForm() {
+	public NewsViewBean() {
 		newsList = new ArrayList<News>();
 		newsMessage = new News();
 	}
 
-	public void reset(ActionMapping mapping, HttpServletRequest request) {
-		super.reset(mapping, request);
+	public void reset() {
 		selectedNews = null;
 	}
 
-	public ActionErrors validate(ActionMapping mapping,
-			HttpServletRequest request) {
-		return super.validate(mapping, request);
-	}
-
 	public List<News> getNewsList() {
-	//  TODO: take it away in wrapper
 		Collections.sort(newsList, newsByDateComparator);
 		return newsList;
 	}
 
-    //  TODO: take it away in wrapper
 	public List<News> getNewsList(Comparator<News> newsComparator) {
 		Collections.sort(newsList, newsComparator);
 		return newsList;

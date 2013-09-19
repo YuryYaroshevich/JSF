@@ -1,19 +1,20 @@
 package com.epam.ta.util.datelocalizator;
 
+import static com.epam.ta.resource.PropertyGetter.getProperty;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-import com.epam.ta.util.appconstant.TAConstant;
+import com.epam.ta.appconstant.TAConstant;
 
 public final class DateLocalizator {
 	private static final SimpleDateFormat DEFAULT_DATE_FORMAT;
 
 	static {
-		String defaultFormat = TAConstant
-				.getConstant(TAConstant.DEFAULT_DATE_FORMAT);
+		String defaultFormat = getProperty(TAConstant.DEFAULT_DATE_FORMAT);
 		DEFAULT_DATE_FORMAT = new SimpleDateFormat(defaultFormat);
 	}
 

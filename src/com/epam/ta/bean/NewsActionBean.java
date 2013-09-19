@@ -1,4 +1,4 @@
-package com.epam.ta.presentation.action;
+package com.epam.ta.bean;
 
 import java.util.Locale;
 
@@ -17,10 +17,10 @@ import com.epam.ta.database.dao.INewsDAO;
 import com.epam.ta.exception.TATechnicalException;
 import com.epam.ta.model.News;
 import com.epam.ta.presentation.action.requestwrapper.RequestWrapper;
-import com.epam.ta.presentation.form.NewsForm;
 
-public final class NewsAction extends DispatchAction {
+public final class NewsActionBean extends DispatchAction {
 	private INewsDAO newsDAO;
+	private NewsViewBean newsView;
 
 	private static final String FORWARD_NEWS_LIST = "newsList";
 	private static final String FORWARD_VIEW_NEWS = "viewNews";
@@ -36,75 +36,73 @@ public final class NewsAction extends DispatchAction {
 	private static final String ADD_TITLE_PART = "add";
 	private static final String EDIT_TITLE_PART = "edit";
 	private static final String TITLE_PART = "titlePart";
-	
 
 	public void setNewsDAO(INewsDAO newsDAO) {
 		this.newsDAO = newsDAO;
 	}
 
-	public ActionForward newsList(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws TATechnicalException {
-		NewsForm newsForm = (NewsForm) form;
-		newsForm.setNewsList(newsDAO.getNewsList());
-		saveToken(request);
-		return forwardTo(mapping.findForward(FORWARD_NEWS_LIST), request);
+	public NewsViewBean getNewsView() {
+		return newsView;
 	}
 
-	private static ActionForward forwardTo(ActionForward whereWeGo,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		// prepare request wrapper
-		RequestWrapper requestWrapper = prepareRequestWrapper(session);
-		requestWrapper.appendPath(whereWeGo.getPath());
-		// put request wrapper and path of the next page in session
-		session.setAttribute(ATTR_PATH_WRAPPER, requestWrapper);
-		session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
-		return whereWeGo;
+	public void setNewsView(NewsViewBean newsView) {
+		this.newsView = newsView;
 	}
+
+	public String newsList() throws TATechnicalException {
+		newsView.setNewsList(newsDAO.getNewsList());
+		return FORWARD_NEWS_LIST;// forwardTo(mapping.findForward(FORWARD_NEWS_LIST),
+									// request);
+	}
+
+	/*
+	 * private static ActionForward forwardTo(ActionForward whereWeGo,
+	 * HttpServletRequest request) { HttpSession session =
+	 * request.getSession(true); // prepare request wrapper RequestWrapper
+	 * requestWrapper = prepareRequestWrapper(session);
+	 * requestWrapper.appendPath(whereWeGo.getPath()); // put request wrapper
+	 * and path of the next page in session
+	 * session.setAttribute(ATTR_PATH_WRAPPER, requestWrapper);
+	 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath()); return
+	 * whereWeGo; }
+	 */
 
 	// gets form for creating news
-	public ActionForward addNewsPage(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		NewsForm newsForm = (NewsForm) form;
-		newsForm.resetNewsMessage();
-		saveToken(request);
-		HttpSession session = request.getSession(true);
-		RequestWrapper requestWrapper = prepareRequestWrapper(session);
-		ActionForward whereWeGo = mapping.findForward(FORWARD_ADD_NEWS);
-		requestWrapper.appendPath(mapping.findForward(FORWARD_NEWS_LIST)
-				.getPath());
-		session.setAttribute(ATTR_PATH_WRAPPER, requestWrapper);
-		session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
-		session.setAttribute(TITLE_PART, ADD_TITLE_PART);
-		return whereWeGo;
+	public String addNewsPage() {
+		newsView.resetNewsMessage();
+		/*
+		 * HttpSession session = request.getSession(true); RequestWrapper
+		 * requestWrapper = prepareRequestWrapper(session); ActionForward
+		 * whereWeGo = mapping.findForward(FORWARD_ADD_NEWS);
+		 * requestWrapper.appendPath(mapping.findForward(FORWARD_NEWS_LIST)
+		 * .getPath()); session.setAttribute(ATTR_PATH_WRAPPER, requestWrapper);
+		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
+		 * session.setAttribute(TITLE_PART, ADD_TITLE_PART);
+		 */
+		return FORWARD_ADD_NEWS;
 	}
 
 	// saves created news in database
-	public ActionForward saveNews(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
+	public String saveNews()
 			throws TATechnicalException {
-		if (isTokenValid(request)) {// boolean argument for token reseting
-			NewsForm newsForm = (NewsForm) form;
-			ActionMessages errors = newsForm.validate(mapping, request);
-			if (!errors.isEmpty()) {
-				saveErrors(request, errors);
-				return mapping.findForward(FORWARD_ADD_NEWS);
-			}
-			resetToken(request);
-			News newsMessage = newsForm.getNewsMessage();
-			long newsId = newsDAO.addNews(newsMessage);
-			newsMessage.setNewsId(newsId);
-			newsForm.setNewsList(newsDAO.getNewsList());
-			return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
+		/*ActionMessages errors = newsForm.validate(mapping, request);
+		if (!errors.isEmpty()) {
+			saveErrors(request, errors);
+			return mapping.findForward(FORWARD_ADD_NEWS);
 		}
-		return mapping.findForward(FORWARD_VIEW_NEWS);
+		resetToken(request);*/
+		News newsMessage = newsView.getNewsMessage();
+		long newsId = newsDAO.addNews(newsMessage);
+		newsMessage.setNewsId(newsId);
+		newsView.setNewsList(newsDAO.getNewsList());
+		//return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
+		return FORWARD_VIEW_NEWS;
+		//return mapping.findForward(FORWARD_VIEW_NEWS);
 	}
 
 	public ActionForward viewNews(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws TATechnicalException {
-		NewsForm newsForm = (NewsForm) form;
 		News newsMessage = newsDAO.fetchNewsById(newsForm.getNewsId());
 		newsForm.setNewsMessage(newsMessage);
 		saveToken(request);// creates token in user's session before submitting
@@ -123,7 +121,7 @@ public final class NewsAction extends DispatchAction {
 	public ActionForward editNewsPage(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws TATechnicalException {
-		NewsForm newsForm = (NewsForm) form;
+		NewsViewBean newsForm = (NewsViewBean) form;
 		News newsMessage = newsDAO.fetchNewsById(newsForm.getNewsId());
 		newsForm.setNewsMessage(newsMessage);
 		saveToken(request);// creates token in user's session before submitting
@@ -140,7 +138,7 @@ public final class NewsAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws TATechnicalException {
 		if (isTokenValid(request)) {
-			NewsForm newsForm = (NewsForm) form;
+			NewsViewBean newsForm = (NewsViewBean) form;
 			ActionMessages errors = newsForm.validate(mapping, request);
 			if (!errors.isEmpty()) {
 				saveErrors(request, errors);
@@ -159,7 +157,7 @@ public final class NewsAction extends DispatchAction {
 			throws TATechnicalException {
 		ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
 		if (isTokenValid(request, true)) {
-			NewsForm newsForm = (NewsForm) form;
+			NewsViewBean newsForm = (NewsViewBean) form;
 			newsDAO.deleteNews(newsForm.getNewsId());
 			newsForm.setNewsList(newsDAO.getNewsList());
 			HttpSession session = request.getSession(true);
@@ -174,7 +172,7 @@ public final class NewsAction extends DispatchAction {
 			HttpServletResponse response) throws TATechnicalException {
 		ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
 		if (isTokenValid(request)) {
-			NewsForm newsForm = (NewsForm) form;
+			NewsViewBean newsForm = (NewsViewBean) form;
 			String[] selectedNews = newsForm.getSelectedNews();
 			if (selectedNews != null) {
 				newsDAO.deleteNewsGroup(selectedNews);
