@@ -15,20 +15,25 @@ public final class NewsActionBean extends DispatchAction {
 	private INewsDAO newsDAO;
 	private NewsViewBean newsView;
 
-	private static final String FORWARD_NEWS_LIST = "newsList";
-	private static final String FORWARD_VIEW_NEWS = "viewNews";
-	private static final String FORWARD_ADD_NEWS = "addNews";
-	private static final String FORWARD_EDIT_NEWS = "editNews";
+	// returning values of action methods
+	private static final String GO_TO_NEWS_LIST = "newsList";
+	private static final String GO_TO_VIEW_NEWS = "viewNews";
+	private static final String GO_TO_ADD_NEWS = "addNews";
+	private static final String GO_TO_EDIT_NEWS = "editNews";
 
-	/*private static final String ATTR_PATH_WRAPPER = "pathWrapper";
-	private static final String ATTR_LANGUAGE = "language";
-	private static final String ATTR_PREVIOUS_PATH = "previousPath";*/
+	/*
+	 * private static final String ATTR_PATH_WRAPPER = "pathWrapper"; private
+	 * static final String ATTR_LANGUAGE = "language"; private static final
+	 * String ATTR_PREVIOUS_PATH = "previousPath";
+	 */
 
 	// I use one JSP for adding and editing news, so these constants for making
 	// appropriate title in adding and editing pages
-	/*private static final String ADD_TITLE_PART = "add";
-	private static final String EDIT_TITLE_PART = "edit";
-	private static final String TITLE_PART = "titlePart";*/
+	/*
+	 * private static final String ADD_TITLE_PART = "add"; private static final
+	 * String EDIT_TITLE_PART = "edit"; private static final String TITLE_PART =
+	 * "titlePart";
+	 */
 
 	public void setNewsDAO(INewsDAO newsDAO) {
 		this.newsDAO = newsDAO;
@@ -44,8 +49,9 @@ public final class NewsActionBean extends DispatchAction {
 
 	public String newsList() throws TATechnicalException {
 		newsView.setNewsList(newsDAO.getNewsList());
-		return FORWARD_NEWS_LIST;// forwardTo(mapping.findForward(FORWARD_NEWS_LIST),
-									// request);
+		System.out.println(GO_TO_NEWS_LIST);
+		return GO_TO_NEWS_LIST;// forwardTo(mapping.findForward(FORWARD_NEWS_LIST),
+								// request);
 	}
 
 	/*
@@ -62,7 +68,8 @@ public final class NewsActionBean extends DispatchAction {
 
 	// gets form for creating news
 	public String addNews() {
-		newsView.resetNewsMessage();
+		newsView.resetNews();
+		System.out.println(GO_TO_ADD_NEWS);
 		/*
 		 * HttpSession session = request.getSession(true); RequestWrapper
 		 * requestWrapper = prepareRequestWrapper(session); ActionForward
@@ -72,7 +79,7 @@ public final class NewsActionBean extends DispatchAction {
 		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
 		 * session.setAttribute(TITLE_PART, ADD_TITLE_PART);
 		 */
-		return FORWARD_ADD_NEWS;
+		return GO_TO_ADD_NEWS;
 	}
 
 	// saves created news in database
@@ -82,18 +89,19 @@ public final class NewsActionBean extends DispatchAction {
 		 * (!errors.isEmpty()) { saveErrors(request, errors); return
 		 * mapping.findForward(FORWARD_ADD_NEWS); } resetToken(request);
 		 */
-		News newsMessage = newsView.getNewsMessage();
+		News newsMessage = newsView.getNews();
 		long newsId = newsDAO.addNews(newsMessage);
 		newsMessage.setNewsId(newsId);
 		newsView.setNewsList(newsDAO.getNewsList());
 		// return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
-		return FORWARD_VIEW_NEWS;
+		return GO_TO_VIEW_NEWS;
 		// return mapping.findForward(FORWARD_VIEW_NEWS);
 	}
 
-	public String viewNews() throws TATechnicalException {
-		News newsMessage = newsDAO.fetchNewsById(newsView.getNewsId());
-		newsView.setNewsMessage(newsMessage);
+	public String viewNews(int newsId) throws TATechnicalException {
+		News newsMessage = newsDAO.fetchNewsById(newsId);
+		System.out.println(GO_TO_VIEW_NEWS);
+		newsView.setNews(newsMessage);
 		/*
 		 * saveToken(request);// creates token in user's session before
 		 * submitting // form HttpSession session = request.getSession(true);
@@ -104,13 +112,12 @@ public final class NewsActionBean extends DispatchAction {
 		 * requestWrapper); session.setAttribute(ATTR_PREVIOUS_PATH,
 		 * whereWeGo.getPath());
 		 */
-		return FORWARD_VIEW_NEWS;
+		return GO_TO_VIEW_NEWS;
 	}
 
-	// gets form for editing with fields contains current news data
-	public String editNews() throws TATechnicalException {
-		News newsMessage = newsDAO.fetchNewsById(newsView.getNewsId());
-		newsView.setNewsMessage(newsMessage);
+	public String editNews(int newsId) throws TATechnicalException {
+		News newsMessage = newsDAO.fetchNewsById(newsId);
+		newsView.setNews(newsMessage);
 		/*
 		 * saveToken(request);// creates token in user's session before
 		 * submitting // form HttpSession session = request.getSession(true);
@@ -118,7 +125,7 @@ public final class NewsActionBean extends DispatchAction {
 		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
 		 * session.setAttribute(TITLE_PART, EDIT_TITLE_PART);
 		 */
-		return FORWARD_EDIT_NEWS;
+		return GO_TO_EDIT_NEWS;
 	}
 
 	// saves edited news in database
@@ -128,10 +135,10 @@ public final class NewsActionBean extends DispatchAction {
 		 * (!errors.isEmpty()) { saveErrors(request, errors); return
 		 * mapping.findForward(FORWARD_EDIT_NEWS); } resetToken(request);
 		 */
-		newsDAO.updateNews(newsView.getNewsMessage());
+		newsDAO.updateNews(newsView.getNews());
 		// return forwardTo(mapping.findForward(FORWARD_VIEW_NEWS), request);
 
-		return FORWARD_VIEW_NEWS;
+		return GO_TO_VIEW_NEWS;
 	}
 
 	// on view news page
@@ -146,12 +153,12 @@ public final class NewsActionBean extends DispatchAction {
 		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
 		 */
 
-		return FORWARD_NEWS_LIST;
+		return GO_TO_NEWS_LIST;
 	}
 
 	// on list news page
 	public String deleteNewsGroup() throws TATechnicalException {
-		//ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
+		// ActionForward whereWeGo = mapping.findForward(FORWARD_NEWS_LIST);
 		// if (isTokenValid(request)) {
 		String[] selectedNews = newsView.getSelectedNews();
 		if (selectedNews != null) {
@@ -164,12 +171,12 @@ public final class NewsActionBean extends DispatchAction {
 		 * session.setAttribute(ATTR_PREVIOUS_PATH, whereWeGo.getPath());
 		 */
 		// }
-		return FORWARD_NEWS_LIST;
+		return GO_TO_NEWS_LIST;
 	}
 
-	public void changeLocale() {
+	public String changeLocale(String language) {
 		UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
-		viewRoot.setLocale(new Locale("en"));
+		viewRoot.setLocale(new Locale(language));
 		/*
 		 * HttpSession session = request.getSession(true); String language =
 		 * (String) request.getParameter(ATTR_LANGUAGE);
@@ -178,24 +185,26 @@ public final class NewsActionBean extends DispatchAction {
 		 * session.getAttribute(ATTR_PREVIOUS_PATH);
 		 */
 		// return new ActionForward(previousPath);
+
+		// the same view is redisplayed
+		return null;
 	}
 
 	public String cancel() {
-		/*HttpSession session = request.getSession(true);
-		RequestWrapper requestWrapper = (RequestWrapper) session
-				.getAttribute(ATTR_PATH_WRAPPER);
-		String previousPath = requestWrapper.getRequest();*/
+		/*
+		 * HttpSession session = request.getSession(true); RequestWrapper
+		 * requestWrapper = (RequestWrapper) session
+		 * .getAttribute(ATTR_PATH_WRAPPER); String previousPath =
+		 * requestWrapper.getRequest();
+		 */
 		return "previousPath";
 	}
 
-	/*private static RequestWrapper prepareRequestWrapper(HttpSession session) {
-		RequestWrapper requestWrapper = (RequestWrapper) session
-				.getAttribute(ATTR_PATH_WRAPPER);
-		if (requestWrapper == null) {
-			return new RequestWrapper();
-		} else {
-			requestWrapper.resetWrapper();
-			return requestWrapper;
-		}
-	}*/
+	/*
+	 * private static RequestWrapper prepareRequestWrapper(HttpSession session)
+	 * { RequestWrapper requestWrapper = (RequestWrapper) session
+	 * .getAttribute(ATTR_PATH_WRAPPER); if (requestWrapper == null) { return
+	 * new RequestWrapper(); } else { requestWrapper.resetWrapper(); return
+	 * requestWrapper; } }
+	 */
 }

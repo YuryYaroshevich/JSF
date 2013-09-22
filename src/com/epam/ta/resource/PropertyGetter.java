@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 public final class PropertyGetter {
 	private static final ResourceBundle bundle = ResourceBundle
-			.getBundle("appRes.properties");
+			.getBundle("com.epam.ta.resource.appRes");
 
 	private PropertyGetter() {
 	}

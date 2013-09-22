@@ -1,17 +1,76 @@
 <?xml version="1.0"?>
 <faces-config xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
-	version="2.0">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
+	<!-- <managed-bean> <managed-bean-name>newsView</managed-bean-name> <managed-bean-class>com.epam.ta.bean.NewsViewBean</managed-bean-class> 
+		<managed-bean-scope>session</managed-bean-scope> </managed-bean> <managed-bean> 
+		<managed-bean-name>newsAction</managed-bean-name> <managed-bean-class>com.epam.ta.bean.NewsActionBean</managed-bean-class> 
+		<managed-bean-scope>session</managed-bean-scope> <managed-property> <property-name>newsView</property-name> 
+		<value>#{newsView}</value> </managed-property> </managed-bean> -->
+
+	<navigation-rule>
+		<from-view-id>/resource/newsList.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>newsList</from-outcome>
+			<to-view-id>/resource/newsList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewNews</from-outcome>
+			<to-view-id>/resource/viewNews.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editNews</from-outcome>
+			<to-view-id>/resource/addNews.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>addNews</from-outcome>
+			<to-view-id>/resource/addNews.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/resource/viewNews.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>newsList</from-outcome>
+			<to-view-id>/resource/newsList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editNews</from-outcome>
+			<to-view-id>/resource/addNews.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>addNews</from-outcome>
+			<to-view-id>/resource/addNews.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/resource/addNews.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>newsList</from-outcome>
+			<to-view-id>/resource/newsList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>addNews</from-outcome>
+			<to-view-id>/resource/addNews.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewNews</from-outcome>
+			<to-view-id>/resource/viewNews.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
 	<application>
 		<resource-bundle>
 			<base-name>com.epam.ta.resource.appRes</base-name>
-			<var>appResource</var>
+			<var>msg</var>
 		</resource-bundle>
 		<locale-config>
 			<default-locale>en</default-locale>
 			<supported-locale>ru</supported-locale>
 		</locale-config>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
 </faces-config>

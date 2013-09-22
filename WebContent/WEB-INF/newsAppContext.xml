@@ -10,9 +10,14 @@
 	 http://www.springframework.org/schema/context/spring-context-3.0.xsd"
 	xmlns:tx="http://www.springframework.org/schema/tx">
 
-	<bean name="/news" class="com.epam.ta.presentation.action.NewsAction">
+	<bean name="newsAction" class="com.epam.ta.bean.NewsActionBean"
+		scope="session">
 		<property name="newsDAO" ref="newsDAO" />
+		<property name="newsView" ref="newsView" />
 	</bean>
+
+	<bean name="newsView" class="com.epam.ta.bean.NewsViewBean" scope="session" />
+
 
 	<context:property-placeholder
 		location="classpath:com/epam/ta/database/pool/cp.properties" />
@@ -36,16 +41,11 @@
 		<constructor-arg value="${db.url}" />
 	</bean>
 
-	<!-- <bean id="newsDAO" class="com.epam.ta.database.dao.NewsDAOHibernate"
-		factory-method="getInstance" destroy-method="close">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="configLocation">
-			<value>classpath:hibernate.cfg.xml</value>
-		</property>
-	</bean> -->
+	<!-- <bean id="newsDAO" class="com.epam.ta.database.dao.NewsDAOHibernate" 
+		factory-method="getInstance" destroy-method="close"> <property name="sessionFactory" 
+		ref="sessionFactory" /> </bean> <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
+		<property name="configLocation"> <value>classpath:hibernate.cfg.xml</value> 
+		</property> </bean> -->
 
 	<!-- <bean id="newsDAO" class="com.epam.ta.database.dao.NewsDAOJPA" factory-method="getInstance" 
 		destroy-method="close"> <property name="entityManagerFactory" ref="entityManagerFactory" 

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Title</title>
+</h:head>
+<body>
+	<ui:composition template="/WEB-INF/layout/layout.xhtml">
+		<ui:define name="content">
+			<link type="text/css" rel="stylesheet"
+				href="#{facesContext.externalContext.requestContextPath}/css/contentStylesheets/addEditNews.css" />
+			<script type="text/javascript">
+				var titleEmptyMsg = "#{msg['error.required.title']}";
+				var titleTooLongMsg = "#{msg['error.maxlength.title']}";
+				var briefEmptyMsg = "#{msg['error.required.brief']}";
+				var briefTooLongMsg = "#{msg['error.maxlength.brief']}";
+				var contentEmptyMsg = "#{msg['error.required.content']}";
+				var contentTooLongMsg = "#{msg['error.maxlength.content']}";
+				var dateEmptyMsg = "#{msg['error.required.date']}";
+				var dateWrongFormatMsg = "#{msg['error.date.format']}";
+			</script>
+			<script type="text/javascript" src="js/cancel.js"></script>
+			<script type="text/javascript" src="js/validation.js"></script>
+			<script type="text/javascript" src="js/validationHelper.js"></script>
+
+			<div id="content-head">
+				<span id="label">#{msg['head.content.news']}</span><span id="arrows">
+					&gt;&gt;</span> ADD NEWS!
+			</div>
+			<h:form id="news-form">
+				<table>
+					<tr>
+						<td class="label">#{msg['add.news.title']}</td>
+						<td><h:inputText value="#{newsView.title}" size="61" /></td>
+					</tr>
+					<tr>
+						<td class="label">#{msg['add.news.news.date']}</td>
+						<td><h:inputText value="#{newsView.dateOfPublishing}"
+								size="20" /></td>
+					</tr>
+					<tr>
+						<td class="label">#{msg['add.news.brief']}</td>
+						<td><h:inputTextarea value="#{newsView.brief}" cols="60"
+								rows="8" /></td>
+					</tr>
+					<tr>
+						<td class="label">#{msg['add.news.content']}</td>
+						<td><h:inputTextarea value="#{newsView.content}" cols="60"
+								rows="17" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td class="buttons"><h:commandButton id="save" type="submit"
+								value="#{msg['add.news.save']}" action="#{newsAction.saveNews}" />
+							<h:commandButton id="cancel" type="submit"
+								value="#{msg['add.news.cancel']}" action="#{newsAction.cancel}"
+								immediate="true" /></td>
+					</tr>
+				</table>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</body>
+</html>
+

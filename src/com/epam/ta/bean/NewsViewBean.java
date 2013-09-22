@@ -18,7 +18,7 @@ public final class NewsViewBean implements Serializable {
 
 	private List<News> newsList;
 
-	private News newsMessage;
+	private News news;
 
 	private String[] selectedNews;
 
@@ -32,7 +32,7 @@ public final class NewsViewBean implements Serializable {
 
 	public NewsViewBean() {
 		newsList = new ArrayList<News>();
-		newsMessage = new News();
+		news = new News();
 	}
 
 	public void reset() {
@@ -55,16 +55,16 @@ public final class NewsViewBean implements Serializable {
 		this.newsList.addAll(list);
 	}
 
-	public News getNewsMessage() {
-		return newsMessage;
+	public News getNews() {
+		return news;
 	}
 
-	public void setNewsMessage(News newsMessage) {
-		this.newsMessage = newsMessage;
+	public void setNews(News newsMessage) {
+		this.news = newsMessage;
 	}
 
-	public void resetNewsMessage() {
-		setNewsMessage(new News());
+	public void resetNews() {
+		setNews(new News());
 	}
 
 	public String[] getSelectedNews() {
@@ -77,42 +77,42 @@ public final class NewsViewBean implements Serializable {
 
 	// getters and setters for newsMessage
 	public String getTitle() {
-		return newsMessage.getTitle();
+		return news.getTitle();
 	}
 
 	public String getBrief() {
-		return newsMessage.getBrief();
+		return news.getBrief();
 	}
 
 	public String getContent() {
-		return newsMessage.getContent();
+		return news.getContent();
 	}
 
 	public String getDateOfPublishing() {
-		return newsMessage.getDateOfPublishing();
+		return news.getDateOfPublishing();
 	}
 
 	public long getNewsId() {
-		return newsMessage.getNewsId();
+		return news.getNewsId();
 	}
 
 	public void setNewsId(long newsId) {
-		newsMessage.setNewsId(newsId);
+		news.setNewsId(newsId);
 	}
 
 	public void setTitle(String title) {
-		newsMessage.setTitle(title);
+		news.setTitle(title);
 	}
 
 	public void setBrief(String brief) {
-		newsMessage.setBrief(brief);
+		news.setBrief(brief);
 	}
 
 	public void setContent(String content) {
-		newsMessage.setContent(content);
+		news.setContent(content);
 	}
 
 	public void setDateOfPublishing(String dateOfPublishing) {
-		newsMessage.setDateOfPublishing(dateOfPublishing);
+		news.setDateOfPublishing(dateOfPublishing);
 	}
 }

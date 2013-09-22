@@ -3,10 +3,34 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
-	<display-name>TestAppHibernateJPA</display-name>
+	<display-name>JSFTask</display-name>
+	
+	<listener>
+	    <listener-class>
+	        org.springframework.web.context.ContextLoaderListener
+	    </listener-class>
+    </listener>
+    
+    <listener>
+	    <listener-class>
+	        org.springframework.web.context.request.RequestContextListener
+	    </listener-class>
+    </listener>
+    
+    <context-param>    
+        <param-name>contextConfigLocation</param-name>    
+        <param-value>/WEB-INF/newsAppContext.xml</param-value>    
+    </context-param> 
+    
+    <context-param>
+        <param-name>com.sun.faces.expressionFactory</param-name>
+        <param-value>com.sun.el.ExpressionFactoryImpl</param-value>
+    </context-param>
+    
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>faces/resource/newsList.xhtml</welcome-file>
 	</welcome-file-list>
+	
 	<servlet>
 		<servlet-name>controller</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -14,8 +38,9 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>controller</servlet-name>
-		<url-pattern>faces/*</url-pattern>
+		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
+	
 	<filter>
 		<filter-name>setCharEncodingFilter</filter-name>
 		<filter-class>com.epam.ta.util.filter.SetCharEncodingFilter</filter-class>
@@ -26,6 +51,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>setCharEncodingFilter</filter-name>
-		<url-pattern>faces/*</url-pattern>
+		<url-pattern>/faces/*</url-pattern>
 	</filter-mapping>
 </web-app>

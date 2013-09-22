@@ -5,14 +5,14 @@ div#header > div#language-links {
 	width: 170px;
 }
 
-div#language-links > a {
+div#language-links  a {
 	margin-left: 15px;
 	color: #0000CC;
 	font-size: 13px;
 	font-weight: bold;
 }
 
-div#header > h1 {
+div#header  h1 {
 	font-size: 25px;
 	margin: 20px auto;
 	color: #000099;
