@@ -32,8 +32,8 @@
 				<c:when test="${not empty newsAction.newsView.newsList}">
 					<h:form id="news-list-form"
 						onsubmit="return confirmDeletingGroup();">
-						<h:selectManyCheckbox value="${newsView.selectedNews}"
-							layout="pageDirection">
+						<h:selectManyCheckbox id="del-group-chkboxes"
+							value="${newsView.selectedNews}" layout="spread">
 							<c:forEach items="#{newsView.newsList}" var="news">
 								<div class="news-in-list">
 									<div class="title">#{msg['news.list.title']}

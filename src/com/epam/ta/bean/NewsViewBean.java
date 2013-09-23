@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import com.epam.ta.model.News;
 import com.epam.ta.model.comparison.NewsByDateComparator;
@@ -20,6 +21,8 @@ public final class NewsViewBean implements Serializable {
 	private News news;
 
 	private String[] selectedNews;
+	
+	private Locale locale;
 
 	private static final Comparator<News> newsByDateComparator;
 
@@ -71,8 +74,16 @@ public final class NewsViewBean implements Serializable {
 	public void setSelectedNews(String[] selectedNews) {
 		this.selectedNews = selectedNews;
 	}
+	
+	public Locale getLocale() {
+		return locale;
+	}
 
-	// getters and setters for newsMessage
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	// getters and setters for news object
 	public String getTitle() {
 		return news.getTitle();
 	}

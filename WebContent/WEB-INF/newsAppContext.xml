@@ -15,12 +15,9 @@
 		scope="session">
 		<constructor-arg ref="newsDAO" />
 		<constructor-arg ref="newsView" />
-		<property name="localeBean" ref="localeBean" />
 	</bean>
 
 	<bean id="newsView" class="com.epam.ta.bean.NewsViewBean" scope="session" />
-
-	<bean id="localeBean" class="com.epam.ta.bean.LocaleBean" scope="session" />
 
 	<context:property-placeholder
 		location="classpath:com/epam/ta/database/pool/cp.properties" />

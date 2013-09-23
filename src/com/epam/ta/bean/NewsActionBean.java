@@ -11,8 +11,6 @@ import com.epam.ta.model.News;
 public final class NewsActionBean extends DispatchAction {
 	private NewsDAO newsDAO;
 	private NewsViewBean newsView;
-	private LocaleBean localeBean;
-
 
 	// I return this variable when user click cancel button
 	private String previousPage;
@@ -28,20 +26,6 @@ public final class NewsActionBean extends DispatchAction {
 	private static final String VIEW_NEWS_PAGE = "viewNews";
 	private static final String ADD_NEWS_PAGE = "addNews";
 	private static final String EDIT_NEWS_PAGE = "editNews";
-
-	/*
-	 * private static final String ATTR_PATH_WRAPPER = "pathWrapper"; private
-	 * static final String ATTR_LANGUAGE = "language"; private static final
-	 * String ATTR_PREVIOUS_PATH = "previousPath";
-	 */
-
-	// I use one JSP for adding and editing news, so these constants for making
-	// appropriate title in adding and editing pages
-	/*
-	 * private static final String ADD_TITLE_PART = "add"; private static final
-	 * String EDIT_TITLE_PART = "edit"; private static final String TITLE_PART =
-	 * "titlePart";
-	 */
 
 	public NewsActionBean(NewsDAO newsDAO, NewsViewBean newsView)
 			throws TATechnicalException {
@@ -61,14 +45,6 @@ public final class NewsActionBean extends DispatchAction {
 
 	public void setNewsView(NewsViewBean newsView) {
 		this.newsView = newsView;
-	}
-	
-	public LocaleBean getLocaleBean() {
-		return localeBean;
-	}
-
-	public void setLocaleBean(LocaleBean localeBean) {
-		this.localeBean = localeBean;
 	}
 
 	public String getPreviousPage() {
@@ -93,15 +69,12 @@ public final class NewsActionBean extends DispatchAction {
 		return NEWS_LIST_PAGE;
 	}
 
-
-	// gets form for creating news
 	public String addNews() {
 		newsView.resetNews();
 		setAddOrEditTitle(ADD_TITLE_KEY);
 		return ADD_NEWS_PAGE;
 	}
 
-	// saves created news in database
 	public String saveNews() throws TATechnicalException {
 		News newsMessage = newsView.getNews();
 		long newsId = newsDAO.addNews(newsMessage);
@@ -124,20 +97,19 @@ public final class NewsActionBean extends DispatchAction {
 		return EDIT_NEWS_PAGE;
 	}
 
-	// saves edited news in database
 	public String updateNews() throws TATechnicalException {
 		newsDAO.updateNews(newsView.getNews());
 		return VIEW_NEWS_PAGE;
 	}
 
-	// on view news page
+	// on newsView page
 	public String deleteNews() throws TATechnicalException {
 		newsDAO.deleteNews(newsView.getNewsId());
 		newsView.setNewsList(newsDAO.getNewsList());
 		return NEWS_LIST_PAGE;
 	}
 
-	// on list news page
+	// on newsList page
 	public String deleteNewsGroup() throws TATechnicalException {
 		String[] selectedNews = newsView.getSelectedNews();
 		if (selectedNews != null) {
@@ -148,7 +120,7 @@ public final class NewsActionBean extends DispatchAction {
 	}
 
 	public String changeLocale(String language) {
-		localeBean.setLocale(new Locale(language));
+		newsView.setLocale(new Locale(language));
 		return null;
 	}
 
