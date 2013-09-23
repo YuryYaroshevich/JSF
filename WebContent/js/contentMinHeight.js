@@ -11,7 +11,7 @@ $(document).ready(function() {
 		// there is some table
 		tableBorderWidth = $("table > tr").length * parseInt($("table td").css('border-bottom-width'));
 	}
-	
+
 	var contentMinHeight = 
 		screenHeight - headerHeight - 
 		2*parseInt($("#content").css('margin-top')) -

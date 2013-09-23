@@ -27,8 +27,8 @@ import com.epam.ta.database.pool.ConnectionPool;
 import com.epam.ta.exception.TATechnicalException;
 import com.epam.ta.model.News;
 
-public final class NewsDAOJDBC extends AbstractDAOJDBC implements INewsDAO {
-	private static final INewsDAO dao = new NewsDAOJDBC();
+public final class NewsDAOJDBC extends AbstractDAOJDBC implements NewsDAO {
+	private static final NewsDAO dao = new NewsDAOJDBC();
 
 	private static ConnectionPool pool;
 
@@ -46,7 +46,7 @@ public final class NewsDAOJDBC extends AbstractDAOJDBC implements INewsDAO {
 	private NewsDAOJDBC() {
 	}
 
-	public static INewsDAO getInstance() {
+	public static NewsDAO getInstance() {
 		return dao;
 	}
 

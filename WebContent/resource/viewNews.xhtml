@@ -11,6 +11,9 @@
 </h:head>
 <h:body>
 	<ui:composition template="/WEB-INF/layout/layout.xhtml">
+	    <ui:define name="title">
+	        #{msg['title.view.news']}
+	    </ui:define>
 		<ui:define name="content">
 			<link type="text/css" rel="stylesheet"
 				href="#{facesContext.externalContext.requestContextPath}/css/contentStylesheets/addEditNews.css" />

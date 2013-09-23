@@ -5,7 +5,7 @@ import java.util.List;
 import com.epam.ta.exception.TATechnicalException;
 import com.epam.ta.model.News;
 
-public interface INewsDAO {
+public interface NewsDAO {
 	List<News> getNewsList() throws TATechnicalException;
 	
 	News fetchNewsById(long newsId) throws TATechnicalException;

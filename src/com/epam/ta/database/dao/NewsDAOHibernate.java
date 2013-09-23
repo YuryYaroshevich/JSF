@@ -10,8 +10,8 @@ import org.hibernate.Transaction;
 import com.epam.ta.exception.TATechnicalException;
 import com.epam.ta.model.News;
 
-public final class NewsDAOHibernate implements INewsDAO {
-	private static final INewsDAO dao = new NewsDAOHibernate();
+public final class NewsDAOHibernate implements NewsDAO {
+	private static final NewsDAO dao = new NewsDAOHibernate();
 
 	private static SessionFactory sessionFactory;
 
@@ -21,7 +21,7 @@ public final class NewsDAOHibernate implements INewsDAO {
 	// parameter for deleting news group query
 	private static final String NEWS_GROUP = "newsGroup";
 
-	public static INewsDAO getInstance() {
+	public static NewsDAO getInstance() {
 		return dao;
 	}
 

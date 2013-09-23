@@ -5,7 +5,6 @@ import static com.epam.ta.resource.PropertyGetter.getProperty;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,7 +30,6 @@ public final class NewsViewBean implements Serializable {
 	}
 
 	public NewsViewBean() {
-		newsList = new ArrayList<News>();
 		news = new News();
 	}
 
@@ -51,8 +49,7 @@ public final class NewsViewBean implements Serializable {
 
 	// nList is all news from table
 	public void setNewsList(List<News> list) {
-		this.newsList.clear(); // to avoid repetitive elements
-		this.newsList.addAll(list);
+		this.newsList = list;
 	}
 
 	public News getNews() {

@@ -3,46 +3,49 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html">
-<h:head>
-	<link type="text/css" rel="stylesheet"
-		href="#{facesContext.externalContext.requestContextPath}/css/layout/layout.css" />
-	<link type="text/css" rel="stylesheet"
-		href="#{facesContext.externalContext.requestContextPath}/css/layout/header.css" />
-	<link type="text/css" rel="stylesheet"
-		href="#{facesContext.externalContext.requestContextPath}/css/layout/menu.css" />
-	<link type="text/css" rel="stylesheet"
-		href="#{facesContext.externalContext.requestContextPath}/css/layout/footer.css" />
-	<link type="text/css" rel="stylesheet"
-		href="#{facesContext.externalContext.requestContextPath}/css/layout/content.css" />
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<f:view locale="#{newsAction.localeBean.locale}">
+	<h:head>
+		<link type="text/css" rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/css/layout/layout.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/css/layout/header.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/css/layout/menu.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/css/layout/footer.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/css/layout/content.css" />
 
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/jquery-1.9.1.js"></script>
-	<script type="text/javascript"
-		src="#{facesContext.externalContext.requestContextPath}/js/contentMinHeight.js"></script>
-	<title>Title</title>
-</h:head>
-<body>
-	<div id="header">
-		<ui:insert name="header">
-			<ui:include src="/WEB-INF/pageElements/header.xhtml" />
-		</ui:insert>
-	</div>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/jquery-1.9.1.js"></script>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/js/contentMinHeight.js"></script>
+		<title><ui:insert name="title" /></title>
+	</h:head>
+	<body>
+		<div id="header">
+			<ui:insert name="header">
+				<ui:include src="/WEB-INF/pageElements/header.xhtml" />
+			</ui:insert>
+		</div>
 
-	<div id="menu">
-		<ui:insert name="menu">
-			<ui:include src="/WEB-INF/pageElements/menu.xhtml" />
-		</ui:insert>
-	</div>
+		<div id="menu">
+			<ui:insert name="menu">
+				<ui:include src="/WEB-INF/pageElements/menu.xhtml" />
+			</ui:insert>
+		</div>
 
-	<div id="content">
-		<ui:insert name="content" />
-	</div>
+		<div id="content">
+			<ui:insert name="content" />
+		</div>
 
-	<div id="footer">
-		<ui:insert name="footer">
-			<ui:include src="/WEB-INF/pageElements/footer.xhtml" />
-		</ui:insert>
-	</div>
-</body>
+		<div id="footer">
+			<ui:insert name="footer">
+				<ui:include src="/WEB-INF/pageElements/footer.xhtml" />
+			</ui:insert>
+		</div>
+	</body>
+</f:view>
 </html>

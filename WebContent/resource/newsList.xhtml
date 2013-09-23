@@ -11,6 +11,9 @@
 </h:head>
 <h:body>
 	<ui:composition template="/WEB-INF/layout/layout.xhtml">
+		<ui:define name="title">
+		   #{msg['title.news.list']}
+	    </ui:define>
 		<ui:define name="content">
 
 			<link type="text/css" rel="stylesheet"
@@ -26,28 +29,27 @@
 					id="arrows"> &gt;&gt;</span> #{msg['head.content.list']}
 			</div>
 			<c:choose>
-				<c:when test="${not empty newsView.newsList}">
+				<c:when test="${not empty newsAction.newsView.newsList}">
 					<h:form id="news-list-form"
 						onsubmit="return confirmDeletingGroup();">
-						<h:selectManyCheckbox value="${newsView.selectedNews}">
-							<c:forEach items="${newsView.newsList}" var="news">
+						<h:selectManyCheckbox value="${newsView.selectedNews}"
+							layout="pageDirection">
+							<c:forEach items="#{newsView.newsList}" var="news">
 								<div class="news-in-list">
 									<div class="title">#{msg['news.list.title']}
 										${news.title}</div>
 									<div class="date">${news.dateOfPublishing}</div>
 									<div class="brief">${news.brief}</div>
 									<div class="action-links">
-										<h:commandLink
-											action="#{newsAction.viewNews(news.newsId)}"
+										<h:commandLink action="#{newsAction.viewNews(news.newsId)}"
 											style="text-decoration:none">
 											#{msg['news.list.view']}
 										</h:commandLink>
-										<h:commandLink
-											action="#{newsAction.editNews(news.newsId)}"
+										<h:commandLink action="#{newsAction.editNews(news.newsId)}"
 											style="text-decoration:none">
 											#{msg['news.list.edit']}
 										</h:commandLink>
-										<f:selectItem itemValue="${news.newsId}" />
+										<f:selectItem itemValue="#{news.newsId}" itemLabel="" />
 									</div>
 								</div>
 							</c:forEach>
