@@ -18,7 +18,8 @@
 
 			<link type="text/css" rel="stylesheet"
 				href="#{facesContext.externalContext.requestContextPath}/css/contentStylesheets/newsList.css" />
-			<script type="text/javascript" src="js/confirmDeletingGroup.js"></script>
+			<script type="text/javascript"
+				src="#{facesContext.externalContext.requestContextPath}/js/confirmDeletingGroup.js"></script>
 			<script type="text/javascript">
 				var areYouSureMsg = "#{msg['confirm.deleting.news.list']}";
 				var noCheckedNewsMsg = "#{msg['no.checked.news']}";
@@ -49,16 +50,14 @@
 											style="text-decoration:none">
 											#{msg['news.list.edit']}
 										</h:commandLink>
-										<f:selectItem itemValue="#{news.newsId}" itemLabel="" />
+										<!-- <f:selectItem itemValue="#{news.newsId}" itemLabel="" /> -->
 									</div>
 								</div>
 							</c:forEach>
 						</h:selectManyCheckbox>
-						<br></br>
 						<h:commandButton type="submit" id="delete-group"
 							action="#{newsAction.deleteNewsGroup}"
 							value="#{msg['news.list.delete']}" immediate="true" />
-
 					</h:form>
 				</c:when>
 				<c:otherwise>
