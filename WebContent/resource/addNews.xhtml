@@ -38,22 +38,44 @@
 				<table>
 					<tr>
 						<td class="label">#{msg['add.news.title']}</td>
-						<td><h:inputText value="#{newsView.title}" size="61" /></td>
+						<td><h:inputText id="title" value="#{newsView.title}"
+								size="61" required="true"
+								requiredMessage="#{msg['error.required.title']}"
+								validatorMessage="#{msg['error.maxlength.title']}">
+								<f:validateLength maximum="100" />
+							</h:inputText></td>
+						<td><h:message for="title" styleClass="error-msg" /></td>
 					</tr>
 					<tr>
 						<td class="label">#{msg['add.news.news.date']}</td>
-						<td><h:inputText value="#{newsView.dateOfPublishing}"
-								size="20" /></td>
+						<td><h:inputText id="date"
+								value="#{newsView.dateOfPublishing}" size="20" required="true"
+								requiredMessage="#{msg['error.required.date']}"
+								validatorMessage="#{msg['error.date.format']}">
+								<f:validateRegex
+									pattern="(^(0[1-9]|1[0-2])/(0[1-9]|1\d|2\d|3[01])/(\d{4})$)" />
+							</h:inputText></td>
+						<td><h:message for="date" styleClass="error-msg" /></td>
 					</tr>
 					<tr>
 						<td class="label">#{msg['add.news.brief']}</td>
-						<td><h:inputTextarea value="#{newsView.brief}" cols="60"
-								rows="8" /></td>
+						<td><h:inputTextarea id="brief" value="#{newsView.brief}"
+								cols="60" rows="8" required="true"
+								requiredMessage="#{msg['error.required.brief']}"
+								validatorMessage="#{msg['error.maxlength.brief']}">
+								<f:validateLength maximum="500" />
+							</h:inputTextarea></td>
+						<td><h:message for="brief" styleClass="error-msg" /></td>
 					</tr>
 					<tr>
 						<td class="label">#{msg['add.news.content']}</td>
-						<td><h:inputTextarea value="#{newsView.content}" cols="60"
-								rows="17" /></td>
+						<td><h:inputTextarea id="content" value="#{newsView.content}"
+								cols="60" rows="17" required="true"
+								requiredMessage="#{msg['error.required.content']}"
+								validatorMessage="#{msg['error.maxlength.content']}">
+								<f:validateLength maximum="2048" />
+							</h:inputTextarea></td>
+						<td><h:message for="content" styleClass="error-msg" /></td>
 					</tr>
 					<tr>
 						<td></td>

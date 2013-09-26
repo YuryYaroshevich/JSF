@@ -34,3 +34,7 @@
 input#delete-group {
 	float: right;
 }
+
+.action-links input[type="checkbox"] {
+
+}

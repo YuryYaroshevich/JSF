@@ -33,8 +33,8 @@
 				<c:when test="${not empty newsAction.newsView.newsList}">
 					<h:form id="news-list-form"
 						onsubmit="return confirmDeletingGroup();">
-						<h:selectManyCheckbox id="del-group-chkboxes"
-							value="${newsView.selectedNews}" layout="spread">
+						<!-- <h:selectManyCheckbox id="del-group-chkboxes"
+							value="${newsView.selectedNews}" layout="spread"> -->
 							<c:forEach items="#{newsView.newsList}" var="news">
 								<div class="news-in-list">
 									<div class="title">#{msg['news.list.title']}
@@ -50,14 +50,17 @@
 											style="text-decoration:none">
 											#{msg['news.list.edit']}
 										</h:commandLink>
+										<h:selectBooleanCheckbox title=""
+											value="#{news.delete}">
+										</h:selectBooleanCheckbox>
 										<!-- <f:selectItem itemValue="#{news.newsId}" itemLabel="" /> -->
 									</div>
 								</div>
 							</c:forEach>
-						</h:selectManyCheckbox>
+						<!-- </h:selectManyCheckbox> -->
 						<h:commandButton type="submit" id="delete-group"
 							action="#{newsAction.deleteNewsGroup}"
-							value="#{msg['news.list.delete']}" immediate="true" />
+							value="#{msg['news.list.delete']}" />
 					</h:form>
 				</c:when>
 				<c:otherwise>

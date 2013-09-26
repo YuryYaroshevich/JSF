@@ -1,7 +1,9 @@
-ul#error-list {
-	margin-bottom: 15px;
+.error-msg {
+	/*margin-bottom: 15px;
 	border: 1px solid red;
-	padding: 0px 15px;
+	padding: 0px 15px;*/
+	color: red;
+	width: 100px;
 }
 
 td.label {

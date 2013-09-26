@@ -30,6 +30,17 @@ public class News implements Serializable {
 	private String brief;
 	private String content;
 	private String dateOfPublishing;
+	
+	// field for deleting news on newsList page
+	private boolean isDelete;
+
+	public boolean isDelete() {
+		return isDelete;
+	}
+
+	public void setDelete(boolean isDelete) {
+		this.isDelete = isDelete;
+	}
 
 	public News() {
 		Date date = Calendar.getInstance().getTime();
@@ -107,16 +118,17 @@ public class News implements Serializable {
 	public String toString() {
 		return "News [newsId=" + newsId + "," + " title=" + title + ", brief="
 				+ brief + ", content=" + content + ", date=" + dateOfPublishing
-				+ "]";
+				+ ", isDelete=" + isDelete + "]";
 	}
 
 	public int hashCode() {
-		// the values of all those primes were chosen without the reason
+		// the values of all those primes were chosen without reason
 		final int prime1 = 19;
 		final int prime2 = 43;
 		final int prime3 = 23;
 		final int prime4 = 67;
 		final int prime5 = 79;
+		final int prime6 = 83;
 		int hash = 1;
 		hash = prime1 * hash + ((brief == null) ? 0 : brief.hashCode());
 		hash = prime2 * hash + ((content == null) ? 0 : content.hashCode());
@@ -125,6 +137,7 @@ public class News implements Serializable {
 				+ ((dateOfPublishing == null) ? 0 : dateOfPublishing.hashCode());
 		hash = prime4 * hash + (int) (newsId ^ (newsId >>> 32));
 		hash = prime5 * hash + ((title == null) ? 0 : title.hashCode());
+		hash = isDelete ? prime6 : 0;
 		return hash;
 	}
 
@@ -165,6 +178,8 @@ public class News implements Serializable {
 				return false;
 			}
 		} else if (!title.equals(other.title)) {
+			return false;
+		} if (isDelete != other.isDelete) {
 			return false;
 		}
 		return true;

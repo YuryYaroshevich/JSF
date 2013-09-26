@@ -1,5 +1,7 @@
 package com.epam.ta.bean;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.struts.actions.DispatchAction;
@@ -111,9 +113,16 @@ public final class NewsActionBean extends DispatchAction {
 
 	// on newsList page
 	public String deleteNewsGroup() throws TATechnicalException {
-		String[] selectedNews = newsView.getSelectedNews();
-		if (selectedNews != null) {
-			newsDAO.deleteNewsGroup(selectedNews);
+		List<News> newsList = newsView.getNewsList();
+		List<String> selectedNewsIds = new ArrayList<String>();
+		for (News news : newsList) {
+			if (news.isDelete()) {
+				selectedNewsIds.add(Long.toString(news.getNewsId()));
+			}
+		}
+		if (selectedNewsIds.size() > 0) {
+			String[] ids = new String[selectedNewsIds.size()];
+			newsDAO.deleteNewsGroup(selectedNewsIds.toArray(ids));
 			newsView.setNewsList(newsDAO.getNewsList());
 		}
 		return NEWS_LIST_PAGE;
